@@ -7,24 +7,59 @@ class BinaryConverter {
         this.binaryLength = binaryInput.length();
     }
 
-    public int convertToDenary(){
+    public void convertToDenary() {
         int result = 0;
+        if (binaryInput.charAt(0)=='0') {
+            result = convertPositiveToDenary();
+        } else if (binaryInput.charAt(0)=='1') {
+            result = convertNegativeToDenary();
+        }
+        System.out.println("Denary: " + result);
+    }
+
+    public int convertNegativeToDenary() {
+        int index = binaryLength - 1;
+        for (int i = binaryLength-1; i >= 0; i--) {
+            if (binaryInput.charAt(i) == '1') {
+                break;
+            }
+            index--;
+        }
+        String endBinary = binaryInput.substring(index);
+        String firstBinary = binaryInput.substring(0, index);
+        String newFirstBinary = "";
+
+        for (int i = 0; i<firstBinary.length(); i++) {
+            if (firstBinary.charAt(i) == '1') {
+                newFirstBinary += '0';
+            } else if (firstBinary.charAt(i) == '0') {
+                newFirstBinary += '1';
+            }
+        }
+
+        String positiveBinary = newFirstBinary + endBinary;
+        this.binaryInput = positiveBinary;
+        int denaryNumber = -(convertPositiveToDenary());
+        
+        return denaryNumber;
+    }
+
+    public int convertPositiveToDenary(){
+        int denaryNumber = 0;
         int count = 0;
 
         for (int i = binaryLength-1; i >= 0; i--) {
             if (binaryInput.charAt(i) == '1') {
-                result += (Math.pow(2, count));
+                denaryNumber += (Math.pow(2, count));
             } 
             count++;
         }
 
-        if (checkRange(result) == false) {
+        if (checkRange(denaryNumber) == false) {
             System.out.println("Out of range!");
             return 0;
         }
-
-        System.out.println("Denary: " + result);
-        return result;
+        return denaryNumber;
     }
 
     public boolean checkRange(int result) {
@@ -35,4 +70,6 @@ class BinaryConverter {
         
         return (result >= lowerBound && result <= upperBound);
     }
+
+    public void setBinaryInput(String binaryInput) { this.binaryInput = binaryInput; }
 }
