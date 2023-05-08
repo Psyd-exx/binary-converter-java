@@ -10,6 +10,8 @@ public class Main {
         binaryInput = scanner.next();
 
         BinaryConverter convertNew = new BinaryConverter(binaryInput);
-        System.out.println("Denary: " + convertNew.convertToDenary());
+        convertNew.convertToDenary();
+
+        scanner.close();
     }   
 }
